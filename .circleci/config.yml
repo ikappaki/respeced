@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/clojure:lein-2.8.1-node
+      - image: cimg/clojure:1.10.3-node
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -23,12 +23,12 @@ jobs:
 
     steps:
       - checkout
-      - run:
-          name: Install Clojure
-          command: |
-            curl -LO https://download.clojure.org/install/linux-install-1.10.0.411.sh
-            chmod +x linux-install-1.10.0.411.sh
-            sudo ./linux-install-1.10.0.411.sh
+      # - run:
+      #     name: Install Clojure
+      #     command: |
+      #       curl -LO https://download.clojure.org/install/linux-install-1.10.0.411.sh
+      #       chmod +x linux-install-1.10.0.411.sh
+      #       sudo ./linux-install-1.10.0.411.sh
       - run:
           name: Install babashka
           command: |
@@ -38,8 +38,8 @@ jobs:
           name: Install Planck
           command: |
             sudo apt-get install javascriptcoregtk-4.0 libzip4
-            curl -kLO https://planck-repl.org/releases/2.20.0-debian-9.0/planck
-            curl -kLO https://planck-repl.org/releases/2.20.0-debian-9.0/plk
+            curl -kLO http://planck-repl.org/releases/2.20.0-debian-9.0/planck
+            curl -kLO http://planck-repl.org/releases/2.20.0-debian-9.0/plk
             chmod +x planck
             chmod +x plk
             sudo mv planck /usr/bin
