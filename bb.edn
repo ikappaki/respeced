@@ -1,0 +1,29 @@
+{:paths ["bb"]
+ :tasks
+ {:requires [[babashka.deps :as deps]
+             [babashka.fs :as fs]
+             [babashka.process :as p]
+             [clojure.string :as str]
+             [tasks]]
+
+  clean (doseq [dir ["cljs-test-runner-out"
+                     "nashorn_code_cache"
+                     "out"]]
+          (fs/delete-tree dir))
+
+  clj-tests-1.11 (tasks/clj-test :clj-1.11)
+  clj-tests-1.10 (tasks/clj-test :clj-1.10)
+
+  cljs-tests-1.11 (tasks/cljs-test :clj-1.11)
+  cljs-tests-1.10 (tasks/cljs-test :clj-1.10)
+
+  plk-tests-1.11 (tasks/plk-test :clj-1.11)
+  plk-tests-1.10 (tasks/plk-test :clj-1.10)
+
+  test (do (tasks/clj-test :clj-1.11)
+           (tasks/cljs-test :clj-1.10)
+           (tasks/plk-test :clj-1.11))
+
+  ;;
+  }}
+
