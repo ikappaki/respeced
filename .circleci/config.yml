@@ -40,13 +40,6 @@ jobs:
             sudo add-apt-repository ppa:mfikes/planck
             sudo apt-get update
             sudo apt-get install planck
-            # sudo apt-get install javascriptcoregtk-4.0 libzip4
-            # curl -kLO http://planck-repl.org/releases/2.20.0-debian-9.0/planck
-            # curl -kLO http://planck-repl.org/releases/2.20.0-debian-9.0/plk
-            # chmod +x planck
-            # chmod +x plk
-            # sudo mv planck /usr/bin
-            # sudo mv plk /usr/bin
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -56,7 +49,8 @@ jobs:
 
       # run tests!
       - run: bb clean
-      - run: bb test
+      - run: bb test-1.11
+      - run: bb test-1.10
 
       - save_cache:
           paths:
