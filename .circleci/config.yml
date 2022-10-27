@@ -9,11 +9,6 @@ jobs:
       # specify the version you desire here
       - image: cimg/clojure:1.10.3-node
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
     working_directory: ~/repo
 
     environment:
@@ -23,12 +18,6 @@ jobs:
 
     steps:
       - checkout
-      # - run:
-      #     name: Install Clojure
-      #     command: |
-      #       curl -LO https://download.clojure.org/install/linux-install-1.10.0.411.sh
-      #       chmod +x linux-install-1.10.0.411.sh
-      #       sudo ./linux-install-1.10.0.411.sh
       - run:
           name: Install babashka
           command: |
@@ -48,9 +37,8 @@ jobs:
           - v1-dependencies-
 
       # run tests!
-      - run: bb clean
-      - run: bb test-1.11
-      - run: bb test-1.10
+      - run: bb test 1.10
+      - run: bb test 1.11
 
       - save_cache:
           paths:

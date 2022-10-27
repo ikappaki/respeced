@@ -5,28 +5,35 @@
              [babashka.process :as p]
              [clojure.string :as str]
              [tasks]]
+  :init (defn get-deps-clj-ver-alias
+          "Returns the the first command line argument, which is presumambly a
+  deps alias specifying the clojure(script) version to use during
+  testing (defaults to :1.11)."
+          []
+          (or (first *command-line-args*) :1.11))
 
-  clean (doseq [dir ["cljs-test-runner-out"
-                     "nashorn_code_cache"
-                     "out"]]
-          (fs/delete-tree dir))
+  clean {:doc "Clean testing artifacts."
+         :task (doseq [dir ["cljs-test-runner-out"
+                            "nashorn_code_cache"
+                            "out"]]
+                 (fs/delete-tree dir))}
 
-  clj-tests-1.11 (tasks/clj-test :clj-1.11)
-  clj-tests-1.10 (tasks/clj-test :clj-1.10)
+  clj-tests {:doc "Run clj tests; args: [deps-clj-version-alias]."
+             :task (tasks/clj-test (get-deps-clj-ver-alias))}
 
-  cljs-tests-1.11 (tasks/cljs-test :clj-1.11)
-  cljs-tests-1.10 (tasks/cljs-test :clj-1.10)
+  cljs-tests {:doc "Run cljs tests; args: [deps-clj-version-alias]."
+              :task (tasks/cljs-test (get-deps-clj-ver-alias))}
 
-  plk-tests-1.11 (tasks/plk-test :clj-1.11)
-  plk-tests-1.10 (tasks/plk-test :clj-1.10)
+  plk-tests {:doc "Run cljs Planck tests; args: [deps-clj-version-alias]."
+             :task (tasks/plk-test (get-deps-clj-ver-alias))}
 
-  test-1.11 (do (tasks/clj-test  :clj-1.11)
-                (tasks/cljs-test :clj-1.11)
-                (tasks/plk-test  :clj-1.11))
+  test  {:doc "Run all tests; args [deps-clj-version-alias]."
+         :depends [clean]
+         :task (let [deps-clj-ver-alias (get-deps-clj-ver-alias)]
+                 (tasks/clj-test  deps-clj-ver-alias)
+                 (tasks/cljs-test deps-clj-ver-alias)
+                 (tasks/plk-test  deps-clj-ver-alias))}
 
-  test-1.10 (do (tasks/clj-test  :clj-1.10)
-                (tasks/cljs-test :clj-1.10)
-                (tasks/plk-test  :clj-1.10))
   ;;
   }}
 
