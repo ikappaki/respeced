@@ -37,8 +37,8 @@ jobs:
           - v1-dependencies-
 
       # run tests!
-      - run: bb test 1.10
-      - run: bb test 1.11
+      - run: bb test :1.10
+      - run: bb test :1.11
 
       - save_cache:
           paths:
